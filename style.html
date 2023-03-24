@@ -17,7 +17,6 @@
   /* テーブル */
   table {
     width: 100%;  /* ウィンドウ幅いっぱいにする */
-    border-collapse:separate; /* 隣接するセルのボーダーの間隔をあけて表示する */
     border-spacing: 0;  /* 隣接するセルのボーダーとボーダーの間隔 */
   }
 
@@ -25,19 +24,13 @@
     text-align: center; /* テキスト位置 */
     color:white;  /* 文字色 */
     background-color: teal; /* 背景色 */
-    border-left: 1px white; /* 左線 */
-    border-top: 1px white;  /* 上線 */
-    border-bottom: 1px white; /* 下線 */
-    box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;  /* 要素の輪郭に影をつける */
-    padding: 5px 0;
+    border: 1px white solid; /* 枠線 */
+    padding: 5px 0; /* 余白 */
   }
 
   table td{
     text-align: center; /* テキスト位置 */
-    border-left: 1px solid #a8b7c5; /* 左千 */
-    border-bottom: 1px solid #a8b7c5; /* 下線 */
-    border-top:none;  /* 上線 */
-    box-shadow: 0px -3px 5px 1px #eee inset;
+    border: 1px teal solid; /* 枠線 */
     width: 20%;
     padding: 2px 0;
   }

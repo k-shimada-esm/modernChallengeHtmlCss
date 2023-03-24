@@ -18,41 +18,49 @@
   </div>
   <table>
     <thead>
-      <th>
-        書籍番号
-      </th>
-      <th>
-        タイトル
-      </th>
-      <th>
-        ジャンル
-      </th>
-      <th>
-        購入日
-      </th>
-      <th>
-        購入者
-      </th>
+      <th>書籍番号</th>
+      <th>タイトル</th>
+      <th>ジャンル</th>
+      <th>購入日</th>
+      <th>購入者</th>
     </thead>
-    <tbody>
-      <tr>
-        <td>
-          あああ
-        </td>
-        <td>
-          1,234
-        </td>
-        <td>
-          いいい
-        </td>
-        <td>
-          56,789
-        </td>
-        <td>
-          ああああ
-        </td>
-      </tr>
-    </tbody>
+    <tbody id='bookDataList'></tbody>
   </table>
+
+  <script type='text/javascript'>
+    const bookData = [];
+    let bookInfo = {
+        bookNo: '91',
+        title: 'TTTTT1',
+        genre: 'GGGGG1',
+        purchaseDate: '2022-11-21',
+        purchasePerson: 'PPPP1'
+      };
+    bookData.push(bookInfo);
+    bookInfo = {
+        bookNo: '92',
+        title: 'TTTTT2',
+        genre: 'GGGGG2',
+        purchaseDate: '2022-11-22',
+        purchasePerson: 'PPPP2'
+      };
+    bookData.push(bookInfo);
+
+    const bookListElement = document.getElementById('bookDataList');
+    bookData.forEach(bookInfo => {
+      const tr = document.createElement('tr');
+      this.generateTd(tr, bookInfo.bookNo);
+      this.generateTd(tr, bookInfo.title);
+      this.generateTd(tr, bookInfo.genre);
+      this.generateTd(tr, bookInfo.purchaseDate);
+      this.generateTd(tr, bookInfo.purchasePerson);
+      bookListElement.appendChild(tr);
+    })
+    function generateTd(tr, bookValue) {
+      const td = document.createElement('td');
+      td.textContent = bookValue;
+      tr.appendChild(td);
+    };
+  </script>
 </body>
 </html>
