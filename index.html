@@ -28,26 +28,25 @@
   </table>
 
   <script type='text/javascript'>
-    const bookData = [];
-    let bookInfo = {
-        bookNo: '91',
-        title: 'TTTTT1',
-        genre: 'GGGGG1',
-        purchaseDate: '2022-11-21',
-        purchasePerson: 'PPPP1'
-      };
-    bookData.push(bookInfo);
-    bookInfo = {
-        bookNo: '92',
-        title: 'TTTTT2',
-        genre: 'GGGGG2',
-        purchaseDate: '2022-11-22',
-        purchasePerson: 'PPPP2'
-      };
-    bookData.push(bookInfo);
+    const books = []; // 一覧データ
+
+    try {
+      // 一覧データの設定
+      // await this.loadData();
+      const bookData = await new Promise((resolve, reject) => {
+        window.google.script.run
+          .withSuccessHandler(pData => resolve(pData))
+          .withFailureHandler(Error => reject(Error))
+          .readFromBookTableByFilter('', '')
+      });
+      console.log(bookData);
+      books = bookData.books;
+    } catch (error) {
+      alert(`情報を取得できませんでした。[${error}]`)
+    }
 
     const bookListElement = document.getElementById('bookDataList');
-    bookData.forEach(bookInfo => {
+    books.forEach(bookInfo => {
       const tr = document.createElement('tr');
       this.generateTd(tr, bookInfo.bookNo);
       this.generateTd(tr, bookInfo.title);
@@ -61,6 +60,22 @@
       td.textContent = bookValue;
       tr.appendChild(td);
     };
+    /**
+     * 親画面から受け取った検索フィルタデータの条件にヒットした書籍データを取得する
+     *   ※検索フィルタデータが初期値の場合は全件検索される
+     * @return {配列} 書籍データ
+     */
+    // async function loadData () {
+    //   // 書籍テーブルから書籍データを取得する
+    //   const bookData = await new Promise((resolve, reject) => {
+    //     window.google.script.run
+    //       .withSuccessHandler(pData => resolve(pData))
+    //       .withFailureHandler(Error => reject(Error))
+    //       .readFromBookTableByFilter('', '')
+    //   });
+    //   console.log(bookData);
+    //   this.books = bookData.books;
+    // }
   </script>
 </body>
 </html>
