@@ -60,8 +60,8 @@ function readFromBookTableByFilter (genre, title) {
         bookNo: '7',
         title: '株はこうして買いなさい',
         genre: '銀行・金融業',
-        purchaseDate: '2021-09-2',
-        purchasePerson: '0田中一郎',
+        purchaseDate: '2021-09-20',
+        purchasePerson: '田中一郎',
    };
    bookData.push(bookInfo);
    bookInfo = {

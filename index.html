@@ -7,7 +7,8 @@
     <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
     <title>bookApp</title>
 </head>
-<body>
+
+<body onLoad='created()'>
   <header>
     <h1>
         書籍管理
@@ -28,36 +29,37 @@
   </table>
 
   <script type='text/javascript'>
-    const books = []; // 一覧データ
+    async function created() {
+      const books = []; // 一覧データ
 
-    try {
-      // 一覧データの設定
-      // await this.loadData();
-      const bookData = await new Promise((resolve, reject) => {
-        window.google.script.run
-          .withSuccessHandler(pData => resolve(pData))
-          .withFailureHandler(Error => reject(Error))
-          .readFromBookTableByFilter('', '')
-      });
-      console.log(bookData);
-      books = bookData.books;
-    } catch (error) {
-      alert(`情報を取得できませんでした。[${error}]`)
-    }
+      // 一覧データの取得
+      try {
+        await this.loadData();
+      } catch (error) {
+        console.log('loadData ERROR');
+        alert(`情報を取得できませんでした。[${error}]`)
+      }
 
-    const bookListElement = document.getElementById('bookDataList');
-    books.forEach(bookInfo => {
-      const tr = document.createElement('tr');
-      this.generateTd(tr, bookInfo.bookNo);
-      this.generateTd(tr, bookInfo.title);
-      this.generateTd(tr, bookInfo.genre);
-      this.generateTd(tr, bookInfo.purchaseDate);
-      this.generateTd(tr, bookInfo.purchasePerson);
-      bookListElement.appendChild(tr);
-    })
-    function generateTd(tr, bookValue) {
+      const bookListElement = document.getElementById('bookDataList');
+      this.books.forEach(bookInfo => {
+        const tr = document.createElement('tr');
+        this.generateTd(tr, bookInfo.bookNo);
+        this.generateTd(tr, bookInfo.title);
+        this.generateTd(tr, bookInfo.genre);
+        this.generateTd(tr, bookInfo.purchaseDate);
+        this.generateTd(tr, bookInfo.purchasePerson);
+        bookListElement.appendChild(tr);
+      })
+    };
+    /**
+     * テーブルエレメントにデータエレメントをセットする
+     * @param {tr} TR エレメント
+     * @param {tdValue} TD 値
+     * @return {tr} TR エレメント
+     */
+    function generateTd(tr, tdValue) {
       const td = document.createElement('td');
-      td.textContent = bookValue;
+      td.textContent = tdValue;
       tr.appendChild(td);
     };
     /**
@@ -65,17 +67,16 @@
      *   ※検索フィルタデータが初期値の場合は全件検索される
      * @return {配列} 書籍データ
      */
-    // async function loadData () {
-    //   // 書籍テーブルから書籍データを取得する
-    //   const bookData = await new Promise((resolve, reject) => {
-    //     window.google.script.run
-    //       .withSuccessHandler(pData => resolve(pData))
-    //       .withFailureHandler(Error => reject(Error))
-    //       .readFromBookTableByFilter('', '')
-    //   });
-    //   console.log(bookData);
-    //   this.books = bookData.books;
-    // }
+    async function loadData () {
+      // 書籍テーブルから書籍データを取得する
+      const bookData = await new Promise((resolve, reject) => {
+        window.google.script.run
+          .withSuccessHandler(pData => resolve(pData))
+          .withFailureHandler(Error => reject(Error))
+          .readFromBookTableByFilter('', '')
+      });
+      this.books = bookData.books;
+    }
   </script>
 </body>
 </html>
