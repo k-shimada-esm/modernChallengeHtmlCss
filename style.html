@@ -19,7 +19,7 @@
     width: 100%;  /* ウィンドウ幅いっぱいにする */
     border-spacing: 0;  /* 隣接するセルのボーダーとボーダーの間隔 */
   }
-
+  /* テーブルヘッダ */
   table th {
     text-align: center; /* テキスト位置 */
     color:white;  /* 文字色 */
@@ -27,11 +27,30 @@
     border: 1px white solid; /* 枠線 */
     padding: 5px 0; /* 余白 */
   }
-
+  /* テーブルデータ */
   table td {
-    text-align: center; /* テキスト位置 */
     border: 1px teal solid; /* 枠線 */
     width: 10% 30% 25% 10% 25%;
     padding: 2px 0;
+  }
+  /* テーブルデータ（書籍番号） */
+  td.book-no {
+    text-align: center; /* テキスト位置 */
+  }
+  /* テーブルデータ（タイトル） */
+  td.title {
+    text-align: left; /* テキスト位置 */
+  }
+  /* テーブルデータ（ジャンル） */
+  td.genre {
+    text-align: left; /* テキスト位置 */
+  }
+  /* テーブルデータ（購入日） */
+  td.purchase-date {
+    text-align: center; /* テキスト位置 */
+  }
+  /* テーブルデータ（購入者） */
+  td.purchase-person {
+    text-align: left; /* テキスト位置 */
   }
 </style>
