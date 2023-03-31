@@ -8,16 +8,22 @@
     <title>bookApp</title>
 </head>
 
-<body onLoad='created()'>
+<body>
   <header>
     <h1>
         書籍管理
     </h1>
   </header>
+  <!-- <div class="loader">
+    <span class="circle"></span>
+  </div> -->
   <div>
     <input class='registration-button' type='button' value='新規登録'>
   </div>
   <table>
+    <div class="loader">
+      <span class="circle"></span>
+    </div>
     <thead>
       <th>書籍番号</th>
       <th>タイトル</th>
@@ -29,29 +35,38 @@
   </table>
 
   <script type='text/javascript'>
+    window.onload = () => {
+        this.created();
+      };
+
     async function created() {
       const books = []; // 一覧データ
 
-      // 一覧データの取得
+      // ローダー開始
+      const loading = document.querySelector('.loader');
       try {
-        await this.loadData();
+      // 一覧データの取得
+      await this.loadData();
+        // テーブルにデータを登録する
+        const bookListElement = document.getElementById('bookDataList');
+        this.books.forEach(bookInfo => {
+          const tr = document.createElement('tr');
+          this.generateTd(tr, 'book-no', bookInfo.bookNo);
+          this.generateTd(tr, 'title', bookInfo.title);
+          this.generateTd(tr, 'genre', bookInfo.genre);
+          this.generateTd(tr, 'purchase-date', bookInfo.purchaseDate);
+          this.generateTd(tr, 'purchase-person', bookInfo.purchasePerson);
+          bookListElement.appendChild(tr);
+        })
       } catch (error) {
         console.log('loadData ERROR');
         alert(`情報を取得できませんでした。[${error}]`)
-      }
-
-      // テーブルにデータを登録する
-      const bookListElement = document.getElementById('bookDataList');
-      this.books.forEach(bookInfo => {
-        const tr = document.createElement('tr');
-        this.generateTd(tr, 'book-no', bookInfo.bookNo);
-        this.generateTd(tr, 'title', bookInfo.title);
-        this.generateTd(tr, 'genre', bookInfo.genre);
-        this.generateTd(tr, 'purchase-date', bookInfo.purchaseDate);
-        this.generateTd(tr, 'purchase-person', bookInfo.purchasePerson);
-        bookListElement.appendChild(tr);
-      })
+      } finally {
+        // ローダー終了
+        loading.classList.add( 'hide' );
+      };
     };
+
     /**
      * テーブルエレメントにデータエレメントをセットする
      * @param {tr} TR エレメント
