@@ -1,0 +1,81 @@
+<body>
+    <table>
+        <div class="loader">
+          <span class="circle"></span>
+        </div>
+        <thead>
+          <th>書籍番号</th>
+          <th>タイトル</th>
+          <th>ジャンル</th>
+          <th>購入日</th>
+          <th>購入者</th>
+        </thead>
+        <tbody id='bookDataList'></tbody>
+      </table>
+
+      <script type='text/javascript'>
+        window.onload = () => {
+            this.created();
+          };
+
+        async function created() {
+          const books = []; // 一覧データ
+
+          // ローダー開始
+          const loading = document.querySelector('.loader');
+          try {
+          // 一覧データの取得
+          await this.loadData();
+            // テーブルにデータを登録する
+            const bookListElement = document.getElementById('bookDataList');
+            this.books.forEach(bookInfo => {
+              const tr = document.createElement('tr');
+              this.generateTd(tr, 'book-no', bookInfo.bookNo);
+              this.generateTd(tr, 'title', bookInfo.title);
+              this.generateTd(tr, 'genre', bookInfo.genre);
+              this.generateTd(tr, 'purchase-date', bookInfo.purchaseDate);
+              this.generateTd(tr, 'purchase-person', bookInfo.purchasePerson);
+              bookListElement.appendChild(tr);
+            })
+          } catch (error) {
+            console.log('loadData ERROR');
+            alert(`情報を取得できませんでした。[${error}]`)
+          } finally {
+            // ローダー終了
+            loading.classList.add( 'hide' );
+          };
+        };
+
+        /**
+         * テーブルエレメントにデータエレメントをセットする
+         * @param {tr} TR エレメント
+         * @param {className} セルのスタイル名
+         * @param {tdValue} TD 値
+         * @return {tr} TR エレメント
+         */
+        function generateTd(tr, className, tdValue) {
+          const td = document.createElement('td');
+          td.textContent = tdValue;
+          if (className) {
+            td.className = className;
+          }
+          tr.appendChild(td);
+        };
+
+        /**
+         * 親画面から受け取った検索フィルタデータの条件にヒットした書籍データを取得する
+         *   ※検索フィルタデータが初期値の場合は全件検索される
+         * @return {配列} 書籍データ
+         */
+        async function loadData () {
+          // 書籍テーブルから書籍データを取得する
+          const bookData = await new Promise((resolve, reject) => {
+            window.google.script.run
+              .withSuccessHandler(pData => resolve(pData))
+              .withFailureHandler(Error => reject(Error))
+              .readFromBookTableByFilter('', '')
+          });
+          this.books = bookData.books;
+        }
+      </script>
+    </body>
