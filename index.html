@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
   <title>bookApp</title>
+  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
 </head>
 
 <body>
@@ -20,12 +20,5 @@
 
   <!-- 一覧画面 -->
   <?!= HtmlService.createHtmlOutputFromFile('List').getContent(); ?>
-
-  <!-- 登録変更画面 -->
-  <!-- <dialog>
-    <p>書籍名</p>
-    <input type='text'>
-    <input type='button' value='保存'>
-  </dialog> -->
 </body>
 </html>
